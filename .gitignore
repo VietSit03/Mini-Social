@@ -1,0 +1,54 @@
+# ------------------------
+# .NET / ASP.NET Core
+# ------------------------
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+logs/
+Log/
+
+# ------------------------
+# Visual Studio / VS Code
+# ------------------------
+.vs/
+.vscode/
+.idea/
+*.code-workspace
+
+# Rider
+.idea/
+
+# ------------------------
+# OS files
+# ------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# ------------------------
+# Docker / ELK
+# ------------------------
+*.pid
+*.tar
+*.gz
+.env
+.env.*
+docker-compose.yml
+
+# Logstash configs
+logstash.conf
+*.sincedb
+sincedb/
+
+# Mounted log volume (e.g. D:/logs on host)
+logs/
+logs/**
+
+# Elasticsearch data (if stored locally)
+elasticsearch/data/

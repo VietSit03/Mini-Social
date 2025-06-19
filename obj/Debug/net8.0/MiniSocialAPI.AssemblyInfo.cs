@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniSocialAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f1cec406ac8f53d06f01709630369703574a274")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniSocialAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniSocialAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

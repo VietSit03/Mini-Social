@@ -1,0 +1,6 @@
+@MiniSocialAPI_HostAddress = http://localhost:5109
+
+GET {{MiniSocialAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

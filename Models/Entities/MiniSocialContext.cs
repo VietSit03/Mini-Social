@@ -15,6 +15,8 @@ public partial class MiniSocialContext : DbContext
     {
     }
 
+    public virtual DbSet<FriendRequest> FriendRequests { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserOauth> UserOauths { get; set; }
@@ -24,6 +26,39 @@ public partial class MiniSocialContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<FriendRequest>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__FriendRe__3214EC0747F9860F");
+
+            entity.HasIndex(e => new { e.ReceiverId, e.Status }, "IX_FriendRequests_ReceiverId");
+
+            entity.HasIndex(e => e.ReceiverId, "IX_FriendRequests_Receiver_Pending").HasFilter("([Status]='P')");
+
+            entity.HasIndex(e => new { e.SenderId, e.Status }, "IX_FriendRequests_SenderId");
+
+            entity.HasIndex(e => new { e.SenderId, e.ReceiverId }, "IX_FriendRequests_SenderReceiver");
+
+            entity.HasIndex(e => e.SenderId, "IX_FriendRequests_Sender_Pending").HasFilter("([Status]='P')");
+
+            entity.HasIndex(e => new { e.Status, e.SenderId, e.ReceiverId }, "IX_FriendRequests_Status_Sender_Receiver");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.Status)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Receiver).WithMany(p => p.FriendRequestReceivers)
+                .HasForeignKey(d => d.ReceiverId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_FriendRequests_Receiver");
+
+            entity.HasOne(d => d.Sender).WithMany(p => p.FriendRequestSenders)
+                .HasForeignKey(d => d.SenderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_FriendRequests_Sender");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07DAF94328");

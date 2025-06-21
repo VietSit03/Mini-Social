@@ -23,5 +23,9 @@ public partial class User
 
     public DateTime? CreatedAt { get; set; }
 
+    public virtual ICollection<FriendRequest> FriendRequestReceivers { get; set; } = new List<FriendRequest>();
+
+    public virtual ICollection<FriendRequest> FriendRequestSenders { get; set; } = new List<FriendRequest>();
+
     public virtual ICollection<UserOauth> UserOauths { get; set; } = new List<UserOauth>();
 }

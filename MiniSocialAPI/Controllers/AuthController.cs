@@ -1,4 +1,5 @@
-﻿using Google.Apis.Auth;
+﻿using Azure.Core;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using MiniSocialAPI.Models;
@@ -11,7 +12,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace MiniSocialAPI.Controllers
+namespace MiniSocialAPI.MiniSocialAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -41,15 +42,20 @@ namespace MiniSocialAPI.Controllers
                 var refreshToken = _jwtService.GenerateRefreshToken();
                 await _jwtService.SaveRefreshTokenAsync(user, refreshToken, TimeSpan.FromDays(7));
 
-                return Ok(new AuthResponse
+                return Ok(new ApiResponse<AuthResponse>
                 {
-                    AccessToken = accessToken,
-                    RefreshToken = refreshToken
+                    Success = true,
+                    Message = "Login successful",
+                    Data = new AuthResponse
+                    {
+                        AccessToken = accessToken,
+                        RefreshToken = refreshToken
+                    }
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new FailureResponse(ex.Message));
             }
         }
 
@@ -72,15 +78,20 @@ namespace MiniSocialAPI.Controllers
                 var refreshToken = _jwtService.GenerateRefreshToken();
                 await _jwtService.SaveRefreshTokenAsync(user, refreshToken, TimeSpan.FromDays(7));
 
-                return Ok(new AuthResponse
+                return Ok(new ApiResponse<AuthResponse>
                 {
-                    AccessToken = accessToken,
-                    RefreshToken = refreshToken
+                    Success = true,
+                    Message = "Google login successful",
+                    Data = new AuthResponse
+                    {
+                        AccessToken = accessToken,
+                        RefreshToken = refreshToken
+                    }
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new FailureResponse(ex.Message));
             }
         }
 
@@ -103,15 +114,20 @@ namespace MiniSocialAPI.Controllers
                 // Token rotation: save new token, not remove old token because it will automatically expire
                 await _jwtService.SaveRefreshTokenAsync(user, newRefreshToken, TimeSpan.FromDays(7));
 
-                return Ok(new AuthResponse
+                return Ok(new ApiResponse<AuthResponse>
                 {
-                    AccessToken = newAccessToken,
-                    RefreshToken = newRefreshToken
+                    Success = true,
+                    Message = "Refresh successful",
+                    Data = new AuthResponse
+                    {
+                        AccessToken = newAccessToken,
+                        RefreshToken = newRefreshToken
+                    }
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new FailureResponse(ex.Message));
             }
         }
 
@@ -140,15 +156,20 @@ namespace MiniSocialAPI.Controllers
                 var refreshToken = _jwtService.GenerateRefreshToken();
                 await _jwtService.SaveRefreshTokenAsync(newUser, refreshToken, TimeSpan.FromDays(7));
 
-                return Ok(new AuthResponse
+                return Ok(new ApiResponse<AuthResponse>
                 {
-                    AccessToken = accessToken,
-                    RefreshToken = refreshToken
+                    Success = true,
+                    Message = "Register successful",
+                    Data = new AuthResponse
+                    {
+                        AccessToken = accessToken,
+                        RefreshToken = refreshToken
+                    }
                 });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new FailureResponse(ex.Message));
             }
         }
     }

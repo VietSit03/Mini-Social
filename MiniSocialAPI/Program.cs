@@ -24,6 +24,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis")));
 
@@ -61,6 +62,7 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

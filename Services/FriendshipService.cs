@@ -68,16 +68,19 @@ namespace MiniSocialAPI.Services
             {
                 "sent" => _context.FriendRequests
                     .Where(x => x.SenderId == userId && x.Status == "P")
-                    .Include(x => x.SenderId),
+                    .Include(x => x.Sender)
+                    .AsSplitQuery(),
 
                 "received" => _context.FriendRequests
                     .Where(x => x.ReceiverId == userId && x.Status == "P")
-                    .Include(x => x.ReceiverId),
+                    .Include(x => x.Receiver)
+                    .AsSplitQuery(),
 
                 "all" => _context.FriendRequests
                     .Where(x => (x.SenderId == userId || x.ReceiverId == userId) && x.Status == "P")
-                    .Include(x => x.SenderId)
-                    .Include(x => x.ReceiverId),
+                    .Include(x => x.Sender)
+                    .Include(x => x.Receiver)
+                    .AsSplitQuery(),
 
                 _ => throw new ArgumentException("Invalid direction")
             };
@@ -179,6 +182,9 @@ namespace MiniSocialAPI.Services
                 {
                     existing.Status = "P";
                     existing.CreatedAt = DateTime.UtcNow;
+
+                    await _context.SaveChangesAsync();
+                    return true;
                 }
             }
 
